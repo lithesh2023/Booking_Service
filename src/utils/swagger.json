@@ -1,0 +1,262 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Booking Service - OpenAPI 3.0",
+    "description": "This is a  User Profile service Server based on the OpenAPI 3.0 specification.  ",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5001/api/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Booking",
+      "description": "Operations about Booking Service"
+    }
+  ],
+  "paths": {
+    "/booking": {
+      "post": {
+        "tags": [
+          "booking"
+        ],
+        "summary": "Create booking",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createBooking",
+        "requestBody": {
+          "description": "Created booking object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+   
+
+    "/booking/all": {
+      "get": {
+        "tags": [
+          "booking"
+        ],
+        "summary": "Get all booking details for Admin user",
+        "description": "",
+        "operationId": "getAllBookings",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/booking/{username}": {
+      "get": {
+        "tags": [
+          "booking"
+        ],
+        "summary": "Get booking by user name",
+        "description": "",
+        "operationId": "getUserByName",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "booking"
+        ],
+        "summary": "Update booking",
+        "description": "Update the booking details by logged in user",
+        "operationId": "updateBooking",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update an existent booking ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "booking"
+        ],
+        "summary": "Delete booking",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deleteBooking",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Booking": {
+        "type": "object",
+        "properties": {
+          
+          "user_id": {
+            "type": "string",
+            "example": "123"
+          },
+          "parking_slot_id": {
+            "type": "string",
+            "example": "P01"
+          },
+          "from_dt": {
+            "type": "date",
+            "example": "01/01/2023"
+          },
+          "to_dt": {
+            "type": "date",
+            "example":  "01/01/2023"
+          },
+          "rental_price": {
+            "type": "string",
+            "example": "12345"
+          },
+          "extra_price": {
+            "type": "string",
+            "example": "12345"
+          },
+          "advance_paid": {
+            "type": "string",
+            "example": "12345"
+          },
+          "booking_status": {
+            "type": "string",
+            "example": "12345"
+          },
+          "final_price": {
+            "type": "string",
+            "example": "12345"
+          },
+          "vehicle_id": {
+            "type": "string",
+            "example": "12345"
+          }
+
+        },
+        "xml": {
+          "name": "user"
+        }
+      }
+    },
+    "requestBodies": {
+      "UserArray": {
+        "description": "List of user object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
