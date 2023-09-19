@@ -7,6 +7,7 @@ const {
   getAllSlots,
   getVehicle,
   deleteBooking,
+  removeVehicle,
 } = require("../services/bookingService");
 const { validateToken } = require("../utils/jwt");
 

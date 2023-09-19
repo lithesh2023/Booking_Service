@@ -70,7 +70,7 @@ const createBooking = async (req, res) => {
 };
 
 const addVehicle = async (req, res) => {
-  const { booking_id, make, model, reg_num, vehicle_id } = req.body;
+  const { booking_id = null, make, model, reg_num, vehicle_id } = req.body;
   const { user_id } = req.user;
   const result = await pool.query(
     `INSERT INTO public."vehicle" (booking_id,
