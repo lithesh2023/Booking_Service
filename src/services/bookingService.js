@@ -16,11 +16,11 @@ const createBooking = async (req, res) => {
       from_dt,
       to_dt,
       rental_price,
-      extra_price,
-      discount_price,
+      extra_price = 0,
+      discount_price = 0,
       final_price,
-      advance_paid,
-      booking_status,
+      advance_paid = 0,
+      booking_status = "Pendings",
       vehicle_id,
     } = req.body;
     const created_dt = new Date(),
@@ -70,26 +70,25 @@ const createBooking = async (req, res) => {
 };
 
 const addVehicle = async (req, res) => {
-  const { booking_id = null, make, model, reg_num, vehicle_id } = req.body;
+  const { make, model, reg_num } = req.body;
   const { user_id } = req.user;
   const result = await pool.query(
-    `INSERT INTO public."vehicle" (booking_id,
+    `INSERT INTO public."vehicle_detail" (
   make,
   model,
   reg_num,
-  user_id,
-  vehicle_id) VALUES ($1,$2,$3,$4,$5,$6)`,
-    [booking_id, make, model, reg_num, user_id, vehicle_id]
+  user_id) VALUES ($1,$2,$3,$4)`,
+    [make, model, reg_num, user_id]
   );
-  res.status(201).json(result);
+  res.status(201).send(`Successfully Added the vehicle ${reg_num}`);
 };
 const addSlot = async (req, res) => {
   const { parking_slot_id, price, grade } = req.body;
-  const result = await pool.query(
-    `INSERT INTO public."parking_slot" () VALUES ($1,$2,$3)`,
+  await pool.query(
+    `INSERT INTO public."parking_slot" (parking_slot_id,price, grade) VALUES ($1,$2,$3)`,
     [parking_slot_id, price, grade]
   );
-  res.status(201).json(result);
+  res.status(201).send("Parking slot Added");
 };
 const getAllSlots = async (req, res) => {
   const result = await pool.query(`SELECT * FROM public."parking_slot"`);
@@ -99,7 +98,9 @@ const getVehicle = async (req, res) => {
   const result = await pool.query(
     `SELECT * FROM public."vehicle_detail" WHERE user_id = ${req?.user?.user_id}`
   );
-  res.status(200).json(result.rows);
+  const data = result.rows;
+  console.log("data", data);
+  res.status(200).json(data);
 };
 const deleteBooking = async (req, res, bookingId) => {
   pool
