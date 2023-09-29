@@ -70,17 +70,21 @@ const createBooking = async (req, res) => {
 };
 
 const addVehicle = async (req, res) => {
-  const { make, model, reg_num } = req.body;
-  const { user_id } = req.user;
-  const result = await pool.query(
-    `INSERT INTO public."vehicle_detail" (
+  try {
+    const { make, model, reg_num } = req.body;
+    const { user_id } = req.user;
+    const result = await pool.query(
+      `INSERT INTO public."vehicle_detail" (
   make,
   model,
   reg_num,
   user_id) VALUES ($1,$2,$3,$4)`,
-    [make, model, reg_num, user_id]
-  );
-  res.status(201).send(`Successfully Added the vehicle ${reg_num}`);
+      [make, model, reg_num, user_id]
+    );
+    res.status(201).send(`Successfully Added the vehicle ${reg_num}`);
+  } catch (error) {
+    res.status(500).send(`Could not book due to internal error`);
+  }
 };
 const addSlot = async (req, res) => {
   const { parking_slot_id, price, grade } = req.body;
@@ -124,6 +128,7 @@ const removeVehicle = async (req, res, vehicle_id) => {
       res.status(500).send(err);
     });
 };
+const getAvailableSlots = async (req, res) => {};
 module.exports = {
   getAllBooking,
   createBooking,
@@ -133,4 +138,5 @@ module.exports = {
   getVehicle,
   deleteBooking,
   removeVehicle,
+  getAvailableSlots,
 };

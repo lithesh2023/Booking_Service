@@ -8,6 +8,7 @@ const {
   getVehicle,
   deleteBooking,
   removeVehicle,
+  getAvailableSlots,
 } = require("../services/bookingService");
 const { validateToken } = require("../utils/jwt");
 
@@ -42,9 +43,16 @@ router.post("/add-slot", validateToken, (req, res) => {
   }
 });
 
-router.get("/allSlots", validateToken, (req, res) => {
+router.get("/all-slots", validateToken, (req, res) => {
   try {
     getAllSlots(req, res);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+router.get("/available-slots", validateToken, (req, res) => {
+  try {
+    getAvailableSlots(req, res);
   } catch (error) {
     res.status(500).json(error);
   }
